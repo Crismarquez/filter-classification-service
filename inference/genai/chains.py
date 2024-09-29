@@ -26,7 +26,7 @@ class AssistantClassificator:
 
         id_predict = str(uuid.uuid4())
         
-        search_results = await self.cognitive_search.search(input_text)
+        search_results = await self.cognitive_search.search(input_text, top=50)
 
         classification_examples = get_classification_examples(search_results)
 
@@ -64,7 +64,7 @@ Spam: A message that is unsolicited, promotional, or attempting to deceive the r
 Ham: A legitimate message that does not have the characteristics of spam.
 
 For each message, provide the following:
-- The classification (Spam or Ham).
+- The classification (spam or ham).
 - A short explanation justifying why the message fits the category you selected. Use clear and concise reasoning based on features such as:
         Unsolicited promotional content.
         Use of financial incentives, prizes, or promotions.
@@ -75,12 +75,12 @@ Here are a few examples of your responses:
 
 Example 1:
 Message: "Free entry in a competition to win £1000! Text WIN to 12345 now."
-Classification: Spam.
+Classification: spam.
 Explanation: The message promotes a contest with financial incentives and includes a request for the recipient to take an action (text WIN), which is typical of spam.
 
 Example 2:
 Message: "Hey, are we still meeting for lunch tomorrow?"
-Classification: Ham.
+Classification: ham.
 Explanation: This is a personal message without any promotional content or suspicious elements, typical of legitimate communication.
 
 Instructions: After classifying each message, always provide a clear and relevant justification based on the message’s content."""

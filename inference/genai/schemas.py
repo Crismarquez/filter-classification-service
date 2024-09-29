@@ -21,8 +21,8 @@ class Calification(BaseModel):
 
 
 class ClassificationOutput(BaseModel):
-    Classification: str = Field(..., description="Determine if the input text is spam or not, sould be either 'Spam' or 'Ham'")
-    Explanation: str = Field(..., description="Explain why the input text is Spam or Ham")
+    Classification: str = Field(..., description="Determine if the input text is spam or not, sould be either 'spam' or 'ham'")
+    Explanation: str = Field(..., description="Explain why the input text is spam or ham")
 
 class Example(TypedDict):
     """A representation of an example consisting of text input and expected tool calls.

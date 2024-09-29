@@ -2,7 +2,7 @@ import pickle
 import re
 import uuid
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
@@ -56,9 +56,11 @@ class XGBoostPredictor:
         id_prediction = str(uuid.uuid4())
         processed_text = self.preprocess_text(input_text)
         text_vector = self.vectorizer.embed_query(processed_text)
+        text_vector = np.array(text_vector)
+        text_vector = text_vector.reshape(1, -1)
 
         prediction = self.model.predict(text_vector)
-        result = 'Spam' if prediction[0] == 1 else 'Ham'
+        result = 'spam' if prediction[0] == 1 else 'ham'
         
         logger.info(f"Prediction result: {result}")
         return {"id_pred": id_prediction, "result": result, "metadata": {"input_text": input_text}}
@@ -74,7 +76,7 @@ class XGBoostPredictor:
         text_vector = self.vectorizer.embed_query(processed_text)
 
         prediction = self.model.predict(text_vector)
-        result = 'Spam' if prediction[0] == 1 else 'Ham'
+        result = 'spam' if prediction[0] == 1 else 'ham'
         
         logger.info(f"Prediction result: {result}")
         return {"id_pred": id_prediction, "result": result, "metadata": {"input_text": input_text}}
