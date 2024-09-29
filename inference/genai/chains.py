@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 from inference.genai.retrieval import CognitiveSearch
-from inference.genai.schemas import ClassificationOutput, get_classification_examples
+from inference.genai.schemas import ClassificationOutput, get_classification_examples, get_simple_examples
 from config.config import ENV_VARIABLES
 
 class AssistantClassificator:
@@ -28,7 +28,7 @@ class AssistantClassificator:
         
         search_results = await self.cognitive_search.search(input_text, top=50)
 
-        classification_examples = get_classification_examples(search_results)
+        classification_examples = get_simple_examples(search_results)
 
         prompt = await self.classification_setup_prompt(
         )
@@ -91,8 +91,8 @@ Instructions: After classifying each message, always provide a clear and relevan
             "system",
             system_prompt
         ),
-        MessagesPlaceholder("examples"),
-        ("human", "message: {text_input}"),
+        #MessagesPlaceholder("examples"),
+        ("human", "# Some classifications examples: {examples} \n\n new message: {text_input}"),
     ]
 )
         

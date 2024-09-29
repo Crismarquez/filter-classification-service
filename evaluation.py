@@ -34,7 +34,7 @@ def load_valid_dataset():
 async def evaluate_models():
     df_valid = load_valid_dataset()
     df_valid = df_valid.sample(n=20, random_state=42)
-    time_stamp = time.time()
+    time_stamp = time.strftime("%Y%m%d-%H%M%S")
     logger.info(f"Evaluating models...")
     results = []
     for _, row in df_valid.iterrows():

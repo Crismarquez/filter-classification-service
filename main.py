@@ -6,6 +6,7 @@ from fastapi.responses import HTMLResponse
 
 
 from routers.predict import router
+from routers.data import router_data
 from config.config import ENV_VARIABLES
 
 from dotenv import load_dotenv
@@ -15,6 +16,7 @@ app.title = "Spam detection for Twilio use case"
 app.version = "0.0.1" 
 
 app.include_router(router)
+app.include_router(router_data)
 
 @app.get('/', tags=['home'])
 def message():

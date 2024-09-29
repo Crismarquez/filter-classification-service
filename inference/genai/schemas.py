@@ -24,6 +24,9 @@ class ClassificationOutput(BaseModel):
     Classification: str = Field(..., description="Determine if the input text is spam or not, sould be either 'spam' or 'ham'")
     Explanation: str = Field(..., description="Explain why the input text is spam or ham")
 
+class ClassificationOutputEx(BaseModel):
+    Classification: str = Field(..., description="Determine if the input text is spam or not, sould be either 'spam' or 'ham'")
+
 class Example(TypedDict):
     """A representation of an example consisting of text input and expected tool calls.
 
@@ -33,6 +36,12 @@ class Example(TypedDict):
     input: str  # This is the example text
     tool_calls: List[BaseModel]  # Instances of pydantic model that should be extracted
 
+def get_simple_examples(classification_context_data):
+    examples = []
+    for doc in classification_context_data:
+        text = f"message: {doc['message']} \n Classification: {doc['label']}"
+        examples.append(text)
+    return "\n\n".join(examples)
 
 def get_classification_examples(classification_context_data):
 
@@ -42,9 +51,8 @@ def get_classification_examples(classification_context_data):
         examples.append(
             (
                 text,
-                ClassificationOutput(
-                    Classification=doc["label"],
-                    Explanation="[include the explanation]",
+                ClassificationOutputEx(
+                    Classification=doc["label"]
                 ),
             )
         )
