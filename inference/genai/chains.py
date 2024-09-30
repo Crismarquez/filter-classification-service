@@ -1,4 +1,5 @@
 import uuid
+import time
 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -24,6 +25,7 @@ class AssistantClassificator:
 
     async def apredict(self, input_text):
 
+        start = time.time()
         id_predict = str(uuid.uuid4())
         
         search_results = await self.cognitive_search.search(input_text, top=50)
@@ -50,6 +52,7 @@ class AssistantClassificator:
             "id_pred": id_predict,
             "result": classification_result,
             "metadata": {
+                "time": time.time() - start,
                 "explanation": explanation_result
             }
         }

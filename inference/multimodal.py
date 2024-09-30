@@ -1,4 +1,5 @@
 import uuid
+import time
 
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
@@ -19,6 +20,7 @@ class ImageAnalyser:
 
     async def apredict(self, image_base64):
 
+        start = time.time()
         if image_base64 is None:
             return {}
 
@@ -47,6 +49,7 @@ class ImageAnalyser:
             "id_pred": id_predict,
             "result": classification_result,
             "metadata": {
+                "time": time.time() - start,
                 "explanation": explanation_result
             }
         }

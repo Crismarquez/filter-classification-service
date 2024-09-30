@@ -1,6 +1,7 @@
 import pickle
 import re
 import uuid
+import time
 
 import numpy as np
 from nltk.corpus import stopwords
@@ -53,6 +54,7 @@ class XGBoostPredictor:
         """
         Prediction model by XGBoost.
         """
+        start = time.time()
         id_prediction = str(uuid.uuid4())
         processed_text = self.preprocess_text(input_text)
         text_vector = self.vectorizer.embed_query(processed_text)
@@ -63,7 +65,7 @@ class XGBoostPredictor:
         result = 'spam' if prediction[0] == 1 else 'ham'
         
         logger.info(f"Prediction result: {result}")
-        return {"id_pred": id_prediction, "result": result, "metadata": {"input_text": input_text}}
+        return {"id_pred": id_prediction, "result": result, "metadata": {"time": time.time() - start,"input_text": input_text}}
 
     def predict(self, input_text):
         """
